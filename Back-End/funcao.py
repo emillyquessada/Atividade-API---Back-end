@@ -20,6 +20,7 @@ def criar_tabela():
             cursor.close()
             conexao.close()
 
+criar_tabela()
 
 def inserir_produtos(nome, categoria, preco, quantidade):
     conexao, cursor = conectar()

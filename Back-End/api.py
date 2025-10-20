@@ -27,6 +27,22 @@ def listar_produto():
         })
     return {"produtos": lista}
 
+@app.put("/atualizar")
+def atualizar_produto(id_produto: int, preco:float, quantidade: int):
+    filme = funcao.buscar_quantidade(id_produto)
+    if filme:
+        funcao.atualizar_produtos(id_produto, preco, quantidade)
+        return {"mensagem": "Preço/Quantidade atualizada com sucesso!"}
+    else:
+        return{"erro": " Não foi possível atualizar o produto"}
+
+@app.delete("/deletar")
+def deletar_produto(id_produto):
+    deletar = funcao.deletar_produtos(id_produto)
+    if deletar:
+        return {"mensagem": " Produto deletado com sucesso!"}
+    else:
+        return {"erro": "Não foi possível deletar o produto"}
 
 
 

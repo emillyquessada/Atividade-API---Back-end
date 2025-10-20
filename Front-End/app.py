@@ -21,5 +21,20 @@ if menu == "Lista de Produtos":
         st.error("Erro ao acessar API")
 
 
+elif menu == "Adicionar":
+    st.subheader("➕ Adicionar Produtos")
+    nome = st.text_input("Nome do Produto")
+    categoria = st.text_input("Categoria")
+    preco = st.number_input("Preço do Produto")
+    quantidade = st.number_input("Quantidade ")
+    if st.button("Adicionar Produto"):
+        dados = {"nome": nome, "categoria": categoria, "preco": preco, "quantidade": quantidade}
+        response = requests.post(f"{api_url}/produtos", params=dados)
+        if response.status_code == 200:
+            st.success("Produto adicionando com sucesso!")
+        else:
+            st.error("Erro ao adicionar o produto")
 
+
+  
 

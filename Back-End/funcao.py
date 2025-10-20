@@ -9,7 +9,7 @@ def criar_tabela():
                 id SERIAL PRIMARY KEY,
                 nome VARCHAR(100) NOT NULL,
                 categoria VARCHAR(50),
-                preco DECIMAL(10,2),
+                preco NUMERIC (10,2),
                 quantidade INT
                 );
             """)
@@ -35,6 +35,8 @@ def inserir_produtos(nome, categoria, preco, quantidade):
         finally:
             cursor.close()
             conexao.close()
+    
+
 
 def listar_produtos():
     conexao, cursor = conectar()
@@ -49,6 +51,4 @@ def listar_produtos():
         finally:
             cursor.close()
             conexao.close()
-
-
 

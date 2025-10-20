@@ -87,13 +87,13 @@ def buscar_quantidade(id_produto):
         try:
             cursor.execute(
                 "SELECT nome, quantidade FROM produtos WHERE id = %s",
-            (id_produto,)
+                (id_produto,)
             )
-            return cursor.fetchone()
+            return cursor.fetchone() 
         except Exception as erro:
             print(f"Erro ao buscar produto: {erro}")
+            return None
         finally:
             cursor.close()
             conexao.close()
-
-
+    return None

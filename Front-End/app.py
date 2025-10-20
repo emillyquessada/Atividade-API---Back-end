@@ -10,7 +10,15 @@ st.title("Gerenciador de Produtos e Estoques 🚚")
 
 menu = st.sidebar.radio("Menu de Ações", ["Lista de Produtos", "Adicionar", "Atualizar", "Deletar", "Buscar estoque"])
 
-
+if menu == "Lista de Produtos":
+    st.subheader("Catálogo de Produtos: ")
+    response = requests.get(f"{api_url}/produtos")
+    if response.status_code == 200:
+        produtos = response.json().get("produtos", [])
+        if produtos:
+            st.dataframe(produtos)
+    else:
+        st.error("Erro ao acessar API")
 
 
 

@@ -8,7 +8,7 @@ api_url = "http://127.0.0.1:8000"
 st.set_page_config(page_title= "Gerenciador de Produtos e Estoques", page_icon="📦")
 st.title("Gerenciador de Produtos e Estoques 🚚")
 
-menu = st.sidebar.radio("Menu de Ações", ["Lista de Produtos", "Adicionar", "Atualizar", "Deletar", "Buscar estoque"])
+menu = st.sidebar.radio("Menu de Ações", ["Lista de Produtos", "Adicionar", "Atualizar", "Deletar", "Buscar Estoque"])
 
 if menu == "Lista de Produtos":
     st.subheader("Catálogo de Produtos: ")
@@ -39,22 +39,42 @@ elif menu == "Atualizar":
     st.subheader("🔄 Atualizar produto")
 
     id_produto = st.number_input("ID do produto a ser atualizado", step=1)
-    preco = st.number_input("Novo preço (opcional)", step=1)
+    preco = st.number_input("Novo preço (opcional)", step=0.01)
     quantidade = st.number_input("Nova quantidade (opcional)", step=1)
 
     if st.button("Atualizar Produto"):
-        dados = {}
-        if preco:
-            dados["preco"] = preco
-        if quantidade:
-            dados["quantidade"] = quantidade
+        dados = {"id_produto": id_produto,"preco": preco, "quantidade": quantidade}
+        url = f"{api_url}/atualizar"
+        st.write(f"URL chamada: {url}")  # Debug para verificar URL
+        response = requests.put(url, params=dados)
 
-        if not dados:
-            st.warning("Preencha um campo para atualizar.")
+        st.write("Status Code:", response.status_code)
+        st.write("Resposta da API:", response.text)
+
+        if response.status_code == 200:
+            st.success("Produto atualizado com sucesso!")
         else:
-            response = requests.put(f"{api_url}/Produtos/{id_produto}", params=dados)
+            st.error(f"Erro ao atualizar o produto. Detalhes: {response.text}")
+
+elif menu == "Deletar":
+    st.subheader("🗑️ Excluir produto")
+
+    id_produto = st.number_input("Digite o ID do produto para ser excluído", step=1)
+
+    if st.button("Excluir Produto"):
+        if id_produto > 0:
+            dados = {"id_produto": id_produto}
+            url = f"{api_url}/deletar"
+            st.write(f"URL chamada: {url}")  # Debug para verificar URL
+            response = requests.delete(url,params=dados)
+
+            st.write("Status Code:", response.status_code)
+            st.write("Resposta da API:", response.text)
 
             if response.status_code == 200:
-                st.success("Produto atualizado com sucesso!")
+                st.success("Produto excluído com sucesso!")
             else:
-                st.error("Erro ao atualizar o produto.")
+                st.error(f"Erro ao excluir o produto. Detalhes: {response.text}")
+        else:
+            st.warning("Informe um ID válido do produto.")
+

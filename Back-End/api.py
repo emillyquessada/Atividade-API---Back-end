@@ -29,8 +29,8 @@ def listar_produto():
 
 @app.put("/atualizar")
 def atualizar_produto(id_produto: int, preco:float, quantidade: int):
-    filme = funcao.buscar_quantidade(id_produto)
-    if filme:
+    atualizar = funcao.buscar_quantidade(id_produto)
+    if atualizar:
         funcao.atualizar_produtos(id_produto, preco, quantidade)
         return {"mensagem": "Preço/Quantidade atualizada com sucesso!"}
     else:
